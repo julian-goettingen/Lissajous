@@ -42,6 +42,7 @@ class LissMainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        self.setStyleSheet("color: rgb(0,255,30); background-color : rgb(30,30,30)")
         self.initUI()
         self.show()
         self.run()
@@ -50,10 +51,10 @@ class LissMainWindow(QMainWindow):
 
         self.fullyInitialized = False
 
-        sz = 10
-        x_freqs = np.linspace(400,600,sz)
+        sz = 13
+        x_freqs = np.linspace(200,800,sz)
         y_freqs = x_freqs.copy()
-        x_amps = np.array([90 if i==0 or i==2 or i==4 else 5 for i in range(sz)])
+        x_amps = np.array([90 if i==0 or i==2 or i==4 else 0 for i in range(sz)])
         y_amps = np.array([80 if i==1 or i==5 else 0 for i in range(sz)])
         x_offset = 0
         y_offset = 90
@@ -104,7 +105,7 @@ class LissMainWindow(QMainWindow):
     def run(self):
 
         self.t = QTimer()
-        self.t.start(0.001)
+        self.t.start(1)
         self.t.timeout.connect(self.plot_next)
 
 
@@ -119,8 +120,10 @@ class staticVisual(FigureCanvasQTAgg):
 
     def __init__(self, xdata, ydata):
         self.fig = Figure((200,200), 100)
+        self.fig.patch.set_facecolor((0.05,0.05,0.05))
         super().__init__(self.fig)
         self.axes = self.fig.add_subplot(111)
+        self.axes.set_facecolor('black')
         self.axes.set_aspect('equal')
 
         self.replot(xdata, ydata)
@@ -128,15 +131,17 @@ class staticVisual(FigureCanvasQTAgg):
     def replot(self, xdata, ydata):
 
         self.axes.clear()
-        self.axes.plot(xdata, ydata)
+        self.axes.plot(xdata, ydata, color=(0,1,0.1))
         self.fig.canvas.draw()
 
 class dynamicVisual(FigureCanvasQTAgg):
 
     def __init__(self):
         self.fig = Figure((200, 200), 100)
+        self.fig.patch.set_facecolor((0.05,0.05,0.05))
         super().__init__(self.fig)
         self.axes = self.fig.add_subplot(111)
+        self.axes.set_facecolor('black')
         self.axes.set_aspect('equal')
 
         self.maxdata = 100
@@ -153,7 +158,7 @@ class dynamicVisual(FigureCanvasQTAgg):
             self.y_data.pop(0)
 
         self.axes.clear()
-        self.axes.plot(self.x_data, self.y_data)
+        self.axes.plot(self.x_data, self.y_data, color="cyan")
         self.fig.canvas.draw()
 
 
