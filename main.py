@@ -95,9 +95,9 @@ class LissMainWindow(QMainWindow):
         if not self.fullyInitialized:
             return
 
-        t = np.linspace(0,0.1,500)
-        xdata = sum([a * np.sin(f * t + self.x_wave.offset) for a,f in zip(self.x_wave.amps, self.x_wave.freqs)])
-        ydata = sum([a * np.sin(f * t + self.y_wave.offset) for a,f in zip(self.y_wave.amps, self.y_wave.freqs)])
+        t = np.linspace(0,0.3,1000)
+        xdata = sum([a * np.sin(f * t + (self.x_wave.offset)*(2*np.pi/360)) for a,f in zip(self.x_wave.amps, self.x_wave.freqs)])
+        ydata = sum([a * np.sin(f * t + self.y_wave.offset*(2*np.pi/360)) for a,f in zip(self.y_wave.amps, self.y_wave.freqs)])
 
 
         self.staticVis.replot(xdata, ydata)
